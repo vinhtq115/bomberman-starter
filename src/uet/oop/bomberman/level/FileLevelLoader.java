@@ -12,6 +12,10 @@ import uet.oop.bomberman.exceptions.LoadLevelException;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.Scanner;
+
 public class FileLevelLoader extends LevelLoader {
 
 	/**
@@ -26,8 +30,26 @@ public class FileLevelLoader extends LevelLoader {
 	
 	@Override
 	public void loadLevel(int level) {
-		// TODO: đọc dữ liệu từ tệp cấu hình /levels/Level{level}.txt
-		// TODO: cập nhật các giá trị đọc được vào _width, _height, _level, _map
+		String filename = "/levels/Level" + Integer.toString(level) + ".txt";
+		URL location = this.getClass().getResource(filename);
+		Scanner s;
+		try {
+			s = new Scanner(location.openStream());
+			_level = s.nextInt();
+			_height = s.nextInt();
+			_width = s.nextInt();
+			s.nextLine();
+			_map = new char[_height][_width];
+			for (int i = 0; i < _height; i++) {
+				String temp = s.nextLine();
+				for (int j = 0; j < _width; j++) {
+					_map[i][j] = temp.charAt(j);
+				}
+			}
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
