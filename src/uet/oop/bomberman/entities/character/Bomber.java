@@ -7,6 +7,7 @@ import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.input.Keyboard;
+import uet.oop.bomberman.level.Coordinates;
 
 import java.util.Iterator;
 import java.util.List;
@@ -109,18 +110,49 @@ public class Bomber extends Character {
 
     @Override
     protected void calculateMove() {
-        // TODO: xử lý nhận tín hiệu điều khiển hướng đi từ _input và gọi move() để thực hiện di chuyển
-        // TODO: nhớ cập nhật lại giá trị cờ _moving khi thay đổi trạng thái di chuyển
+        double xa = 0, ya = 0; // x velocity, y velocity
+        // Update velocity based on keyboard input
+        if (_input.left)
+            xa -= Game.getBomberSpeed();
+        if (_input.right)
+            xa += Game.getBomberSpeed();
+        if (_input.up)
+            ya -= Game.getBomberSpeed();
+        if (_input.down)
+            ya += Game.getBomberSpeed();
+        if (xa != 0 || ya != 0) {
+            _moving = true;
+            move(xa, ya);
+        }
+        else
+            _moving = false;
     }
 
     @Override
     public boolean canMove(double x, double y) {
+        Entity e = _board.getEntity(Coordinates.pixelToTile(x), Coordinates.pixelToTile(y), this);
+        System.out.println(e);
+        if (e.getClass().getSimpleName().equals("Grass"))
+            return true;
         // TODO: kiểm tra có đối tượng tại vị trí chuẩn bị di chuyển đến và có thể di chuyển tới đó hay không
         return false;
     }
 
     @Override
     public void move(double xa, double ya) {
+        if (canMove(_x + xa, _y + ya)) {
+            _x += xa;
+            _y += ya;
+        }
+        // Update direction: 0 - up, 1 - right, 2 - down, 3 - left
+        if (xa > 0) // Right
+            _direction = 1;
+        if (xa < 0) // Left
+            _direction = 3;
+        if (ya > 0) // Down
+            _direction = 2;
+        if (ya < 0) // Up
+            _direction = 0;
         // TODO: sử dụng canMove() để kiểm tra xem có thể di chuyển tới điểm đã tính toán hay không và thực hiện thay đổi tọa độ _x, _y
         // TODO: nhớ cập nhật giá trị _direction sau khi di chuyển
     }
