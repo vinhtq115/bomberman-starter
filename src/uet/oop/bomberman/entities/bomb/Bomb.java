@@ -3,8 +3,10 @@ package uet.oop.bomberman.entities.bomb;
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.entities.AnimatedEntitiy;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.level.Coordinates;
 
 public class Bomb extends AnimatedEntitiy {
 
@@ -93,8 +95,22 @@ public class Bomb extends AnimatedEntitiy {
 
 	@Override
 	public boolean collide(Entity e) {
+		if (e instanceof Bomber) { // Case: bomber has just planted the bomb and hasn't moved from the bomb
+			double distanceFromBomberX = e.getX() - Coordinates.tileToPixel(_x);
+			double distanceFromBomberY = e.getY() - Coordinates.tileToPixel(_y);
+			if ((distanceFromBomberX >= 16) || // Bomber on the right
+					(distanceFromBomberX <= -10) || // Bomber on the left
+					(distanceFromBomberY >= 16) || // Bomber below
+					(distanceFromBomberY <= -16)) // Bomber upper
+				_allowedToPassThru = false;
+			return _allowedToPassThru;
+		}
+		if (e instanceof Flame) {
+			explode();
+			return true;
+		}
         // TODO: xử lý khi Bomber đi ra sau khi vừa đặt bom (_allowedToPassThru)
-        // TODO: xử lý va chạm với Flame của Bomb khác
+
         return false;
 	}
 }

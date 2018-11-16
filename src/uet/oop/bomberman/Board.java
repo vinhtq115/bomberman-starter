@@ -70,7 +70,7 @@ public class Board implements IRender {
 		int x1 = (Screen.xOffset + screen.getWidth() + Game.TILES_SIZE) / Game.TILES_SIZE; // -> right X
 		int y0 = Screen.yOffset >> 4;
 		int y1 = (Screen.yOffset + screen.getHeight()) / Game.TILES_SIZE; //render one tile plus to fix black margins
-		
+
 		for (int y = y0; y < y1; y++) {
 			for (int x = x0; x < x1; x++) {
 				_entities[x + y * _levelLoader.getWidth()].render(screen);

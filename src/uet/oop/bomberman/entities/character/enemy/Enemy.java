@@ -75,10 +75,41 @@ public abstract class Enemy extends Character {
 	
 	@Override
 	public void calculateMove() {
-		// TODO: Tính toán hướng đi và di chuyển Enemy theo _ai và cập nhật giá trị cho _direction
-		// TODO: sử dụng canMove() để kiểm tra xem có thể di chuyển tới điểm đã tính toán hay không
-		// TODO: sử dụng move() để di chuyển
-		// TODO: nhớ cập nhật lại giá trị cờ _moving khi thay đổi trạng thái di chuyển
+		System.out.println(_x + " " + _y + " " + this.getClass().getSimpleName());
+		double xa = 0, ya = 0;
+		if (_steps <= 0) {
+			_steps = MAX_STEPS; // Limit number of enemy's steps
+			_direction = _ai.calculateDirection(); // Generate new direction
+		}
+
+		switch (_direction) {
+			case 0 : { // Up
+				ya -= _speed;
+				break;
+			}
+			case 1 : { // Right
+				xa += _speed;
+				break;
+			}
+			case 2 : { // Down
+				ya += _speed;
+				break;
+			}
+			case 3 : { // Left
+				xa -= _speed;
+				break;
+			}
+		}
+
+		if (canMove(xa, ya)) {
+			_steps--;
+			move(xa, ya);
+			_moving = true;
+		}
+		else {
+			_steps = 0; // For reset direction
+			_moving = false;
+		}
 	}
 	
 	@Override
@@ -90,14 +121,21 @@ public abstract class Enemy extends Character {
 	
 	@Override
 	public boolean canMove(double x, double y) {
-		// TODO: kiểm tra có đối tượng tại vị trí chuẩn bị di chuyển đến và có thể di chuyển tới đó hay không
+
 		return false;
 	}
 
 	@Override
 	public boolean collide(Entity e) {
-		// TODO: xử lý va chạm với Flame
-		// TODO: xử lý va chạm với Bomber
+		if (e instanceof Flame) {
+			this.kill();
+			return false;
+		}
+		if (e instanceof Bomber) {
+			Bomber bomber = (Bomber) e;
+			bomber.kill();
+			return false;
+		}
 		return true;
 	}
 	

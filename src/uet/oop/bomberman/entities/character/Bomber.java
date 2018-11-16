@@ -4,6 +4,8 @@ import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.bomb.Bomb;
+import uet.oop.bomberman.entities.bomb.Flame;
+import uet.oop.bomberman.entities.character.enemy.Enemy;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.input.Keyboard;
@@ -110,7 +112,8 @@ public class Bomber extends Character {
 
     @Override
     protected void calculateMove() {
-        double xa = 0, ya = 0; // x velocity, y velocity
+        System.out.println(_x + " " + _y + " " + this.getClass().getSimpleName());
+        int xa = 0, ya = 0; // x velocity, y velocity
         // Update velocity based on keyboard input
         if (_input.left)
             xa -= Game.getBomberSpeed();
@@ -130,19 +133,25 @@ public class Bomber extends Character {
 
     @Override
     public boolean canMove(double x, double y) {
-        Entity e = _board.getEntity(Coordinates.pixelToTile(x), Coordinates.pixelToTile(y), this);
-        System.out.println(e);
-        if (e.getClass().getSimpleName().equals("Grass"))
-            return true;
-        // TODO: kiểm tra có đối tượng tại vị trí chuẩn bị di chuyển đến và có thể di chuyển tới đó hay không
-        return false;
+        // Bomber: 16x10 (HxW)
+        Entity e1 = _board.getEntity(Coordinates.pixelToTile(x), Coordinates.pixelToTile(y), this);
+        Entity e2 = _board.getEntity(Coordinates.pixelToTile(x + 10), Coordinates.pixelToTile(y), this);
+        Entity e3 = _board.getEntity(Coordinates.pixelToTile(x), Coordinates.pixelToTile(y + 16), this);
+        Entity e4 = _board.getEntity(Coordinates.pixelToTile(x + 10), Coordinates.pixelToTile(y + 16), this);
+
+        if (!collide(e1) || !collide(e2) || !collide(e3) || !collide(e4))
+            return false;
+
+        return true;
     }
 
     @Override
     public void move(double xa, double ya) {
-        if (canMove(_x + xa, _y + ya)) {
-            _x += xa;
+        if (canMove(_x, _y + ya)) {
             _y += ya;
+        }
+        if (canMove(_x + xa, _y)) { // Allow sliding like NES version
+            _x += xa;
         }
         // Update direction: 0 - up, 1 - right, 2 - down, 3 - left
         if (xa > 0) // Right
@@ -153,12 +162,23 @@ public class Bomber extends Character {
             _direction = 2;
         if (ya < 0) // Up
             _direction = 0;
-        // TODO: sử dụng canMove() để kiểm tra xem có thể di chuyển tới điểm đã tính toán hay không và thực hiện thay đổi tọa độ _x, _y
-        // TODO: nhớ cập nhật giá trị _direction sau khi di chuyển
     }
 
+    /**
+     * Check collision. Also,
+     * @param e Entity
+     * @return  false if collide with something
+     *          true if not
+     */
     @Override
     public boolean collide(Entity e) {
+        if (e instanceof Enemy) {
+            this.kill();
+        }
+        if (e instanceof Flame) {
+            this.kill();
+        }
+
         // TODO: xử lý va chạm với Flame
         // TODO: xử lý va chạm với Enemy
 

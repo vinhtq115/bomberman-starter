@@ -66,7 +66,7 @@ public class FileLevelLoader extends LevelLoader {
 								break;
 					case '*' :	_board.addEntity(x + y * _width, new LayeredEntity(x, y, new Grass(x, y, Sprite.grass), new Brick(x, y, Sprite.brick))); // Add brick
 								break;
-					case 'x' :	_board.addEntity(x + y * _width, new LayeredEntity(x, y, new Grass(x, y, Sprite.grass), new Portal(x, y, Sprite.portal), new Brick(x, y, Sprite.brick))); // Add portal
+					case 'x' :	_board.addEntity(x + y * _width, new LayeredEntity(x, y, new Grass(x, y, Sprite.grass), new Portal(x, y, Sprite.portal, _board), new Brick(x, y, Sprite.brick))); // Add portal
 								break;
 					// Character
 					case 'p' :	_board.addCharacter(new Bomber(Coordinates.tileToPixel(x), Coordinates.tileToPixel(y) + Game.TILES_SIZE, _board));
