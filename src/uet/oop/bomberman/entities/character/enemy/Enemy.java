@@ -75,7 +75,6 @@ public abstract class Enemy extends Character {
 	
 	@Override
 	public void calculateMove() {
-		System.out.println(_x + " " + _y + " " + this.getClass().getSimpleName());
 		double xa = 0, ya = 0;
 		if (_steps <= 0) {
 			_steps = MAX_STEPS; // Limit number of enemy's steps
@@ -118,11 +117,18 @@ public abstract class Enemy extends Character {
 		_y += ya;
 		_x += xa;
 	}
-	
+
+	/**
+	 * Check if enemy can move
+	 * @param x	destination - current position (X axis)
+	 * @param y destination - current position (Y axis)
+	 * @return	true if enemy can move
+	 * 		  	false if can't
+	 */
 	@Override
 	public boolean canMove(double x, double y) {
-
-		return false;
+		Entity e = _board.getEntity(Coordinates.pixelToTile(_x + x), Coordinates.pixelToTile(_y + y), this);
+		return e.collide(this);
 	}
 
 	@Override

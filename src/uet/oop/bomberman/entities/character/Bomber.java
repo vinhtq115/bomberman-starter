@@ -71,15 +71,15 @@ public class Bomber extends Character {
      * Kiểm tra xem có đặt được bom hay không? nếu có thì đặt bom tại vị trí hiện tại của Bomber
      */
     private void detectPlaceBomb() {
-        // TODO: kiểm tra xem phím điều khiển đặt bom có được gõ và giá trị _timeBetweenPutBombs, Game.getBombRate() có thỏa mãn hay không
-        // TODO:  Game.getBombRate() sẽ trả về số lượng bom có thể đặt liên tiếp tại thời điểm hiện tại
-        // TODO: _timeBetweenPutBombs dùng để ngăn chặn Bomber đặt 2 Bomb cùng tại 1 vị trí trong 1 khoảng thời gian quá ngắn
-        // TODO: nếu 3 điều kiện trên thỏa mãn thì thực hiện đặt bom bằng placeBomb()
-        // TODO: sau khi đặt, nhớ giảm số lượng Bomb Rate và reset _timeBetweenPutBombs về 0
+        if(_input.space && _timeBetweenPutBombs < 0 && Game.getBombRate() >= 1) {
+            placeBomb(Coordinates.pixelToTile(_x + _sprite.getSize() / 2), Coordinates.pixelToTile(_y - _sprite.getSize() / 2)); // Place bomb based on the center of player
+            _timeBetweenPutBombs = 30;
+            Game.addBombRate(-1);
+        }
     }
 
     protected void placeBomb(int x, int y) {
-        // TODO: thực hiện tạo đối tượng bom, đặt vào vị trí (x, y)
+        _board.addBomb(new Bomb(x, y, _board));
     }
 
     private void clearBombs() {
@@ -112,8 +112,7 @@ public class Bomber extends Character {
 
     @Override
     protected void calculateMove() {
-        System.out.println(_x + " " + _y + " " + this.getClass().getSimpleName());
-        int xa = 0, ya = 0; // x velocity, y velocity
+        double xa = 0, ya = 0; // x velocity, y velocity
         // Update velocity based on keyboard input
         if (_input.left)
             xa -= Game.getBomberSpeed();
@@ -133,15 +132,13 @@ public class Bomber extends Character {
 
     @Override
     public boolean canMove(double x, double y) {
-        // Bomber: 16x10 (HxW)
-        Entity e1 = _board.getEntity(Coordinates.pixelToTile(x), Coordinates.pixelToTile(y), this);
-        Entity e2 = _board.getEntity(Coordinates.pixelToTile(x + 10), Coordinates.pixelToTile(y), this);
-        Entity e3 = _board.getEntity(Coordinates.pixelToTile(x), Coordinates.pixelToTile(y + 16), this);
-        Entity e4 = _board.getEntity(Coordinates.pixelToTile(x + 10), Coordinates.pixelToTile(y + 16), this);
-
-        if (!collide(e1) || !collide(e2) || !collide(e3) || !collide(e4))
+        // Bomber: 16x12 (HxW)
+        Entity e1 = _board.getEntity(Coordinates.pixelToTile(x), Coordinates.pixelToTile(y - 16), this);
+        Entity e2 = _board.getEntity(Coordinates.pixelToTile(x + 11), Coordinates.pixelToTile(y - 16), this);
+        Entity e3 = _board.getEntity(Coordinates.pixelToTile(x), Coordinates.pixelToTile(y - 1), this);
+        Entity e4 = _board.getEntity(Coordinates.pixelToTile(x + 11), Coordinates.pixelToTile(y - 1), this);
+        if (!e1.collide(this) || !e2.collide(this) || !e3.collide(this) || !e4.collide(this))
             return false;
-
         return true;
     }
 
@@ -174,13 +171,12 @@ public class Bomber extends Character {
     public boolean collide(Entity e) {
         if (e instanceof Enemy) {
             this.kill();
+            return true;
         }
         if (e instanceof Flame) {
             this.kill();
+            return false;
         }
-
-        // TODO: xử lý va chạm với Flame
-        // TODO: xử lý va chạm với Enemy
 
         return true;
     }

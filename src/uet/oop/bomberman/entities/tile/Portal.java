@@ -19,7 +19,7 @@ public class Portal extends Tile {
 		if (e instanceof Bomber) {
 			if (!board.detectNoEnemies()) // Check if there are enemies left
 				return false;
-			if (e.getXTile() == getX() && e.getYTile() == getY()) // Check if player is standing in portal
+			if (e.getXTile() == _x && e.getYTile() == _y) // Check if player is standing in portal
 				board.nextLevel();
 			return true;
 		}
