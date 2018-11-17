@@ -131,23 +131,87 @@ public class Bomber extends Character {
     }
 
     @Override
-    public boolean canMove(double x, double y) {
+    public boolean canMove(double xa, double ya) {
         // Bomber: 16x12 (HxW)
-        Entity e1 = _board.getEntity(Coordinates.pixelToTile(x), Coordinates.pixelToTile(y - 16), this);
-        Entity e2 = _board.getEntity(Coordinates.pixelToTile(x + 11), Coordinates.pixelToTile(y - 16), this);
-        Entity e3 = _board.getEntity(Coordinates.pixelToTile(x), Coordinates.pixelToTile(y - 1), this);
-        Entity e4 = _board.getEntity(Coordinates.pixelToTile(x + 11), Coordinates.pixelToTile(y - 1), this);
-        if (!e1.collide(this) || !e2.collide(this) || !e3.collide(this) || !e4.collide(this))
-            return false;
+        Entity[] e = new Entity[4];
+        e[0] = _board.getEntity(Coordinates.pixelToTile(_x + xa), Coordinates.pixelToTile(_y + ya - Game.TILES_SIZE), this); // e[0]: upper left corner
+        e[1] = _board.getEntity(Coordinates.pixelToTile(_x + xa + 11), Coordinates.pixelToTile(_y + ya - Game.TILES_SIZE), this); // e[1]: upper right corner
+        e[2] = _board.getEntity(Coordinates.pixelToTile(_x + xa), Coordinates.pixelToTile(_y + ya - 1), this); // e[2]: lower left corner
+        e[3] = _board.getEntity(Coordinates.pixelToTile(_x + xa + 11), Coordinates.pixelToTile(_y + ya - 1), this); // e[3]: lower right corner
+        if (ya < 0) { // Up
+            if (!e[0].collide(this) && !e[1].collide(this)) // Both corner is blocked
+                return false;
+            else if (!e[0].collide(this) && e[1].collide(this)) { // Only upper left is blocked
+                if (Coordinates.tileToPixel(e[0].getX()) + Game.TILES_SIZE - _x <= Sprite.player_up.getRealWidth() / 2 + 2)
+                    move(1, 0);
+                else
+                    return false;
+            }
+            else if (e[0].collide(this) && !e[1].collide(this)) { // Only upper right is blocked
+                if (_x + Sprite.player_up.getRealWidth() - Coordinates.tileToPixel(e[1].getX()) <= Sprite.player_up.getRealWidth() / 2 + 2)
+                    move(-1, 0);
+                else
+                    return false;
+            }
+        }
+        else if (ya > 0) { // Down
+            if (!e[2].collide(this) && !e[3].collide(this)) // Both corner is blocked
+                return false;
+            else if (!e[2].collide(this) && e[3].collide(this)) { // Only lower left is blocked
+                if (Coordinates.tileToPixel(e[2].getX()) + Game.TILES_SIZE - _x <= Sprite.player_down.getRealWidth() / 2 + 2)
+                    move(1, 0);
+                else
+                    return false;
+            }
+            else if (e[2].collide(this) && !e[3].collide(this)) { // Only lower right is blocked
+                if (_x + Sprite.player_down.getRealWidth() - Coordinates.tileToPixel(e[3].getX()) <= Sprite.player_down.getRealWidth() / 2 + 2)
+                    move(-1, 0);
+                else
+                    return false;
+            }
+        }
+        else if (xa > 0) { // Right
+            if (!e[1].collide(this) && !e[3].collide(this))
+                return false;
+            else if (!e[1].collide(this) && e[3].collide(this)) { // Only upper right is blocked
+                if (Coordinates.tileToPixel(e[1].getY() + 1) + Game.TILES_SIZE - _y <= Sprite.player_right.getRealHeight() / 2 + 2)
+                    move(0, 1);
+                else
+                    return false;
+            }
+            else if (e[1].collide(this) && !e[3].collide(this)) { // Only lower right is blocked
+                if (_y + Sprite.player_right.getRealHeight() - Coordinates.tileToPixel(e[3].getY() + 1) <= Sprite.player_right.getRealHeight() / 2 + 2)
+                    move(0, -1);
+                else
+                    return false;
+            }
+        }
+        else { // Left
+            if (!e[0].collide(this) && !e[2].collide(this))
+                return false;
+            else if (!e[0].collide(this) && e[2].collide(this)) { // Only upper left is blocked
+                if (Coordinates.tileToPixel(e[0].getY() + 1) + Game.TILES_SIZE - _y <= Sprite.player_left.getRealHeight() / 2 + 2)
+                    move(0, 1);
+                else
+                    return false;
+            }
+            else if (e[0].collide(this) && !e[2].collide(this)) { // Only lower left is blocked
+                if (_y + Sprite.player_right.getRealHeight() - Coordinates.tileToPixel(e[2].getY() + 1) <= Sprite.player_left.getRealHeight() / 2 + 2)
+                    move(0, -1);
+                else
+                    return false;
+            }
+        }
+
         return true;
     }
 
     @Override
     public void move(double xa, double ya) {
-        if (canMove(_x, _y + ya)) {
+        if (canMove(0, ya)) {
             _y += ya;
         }
-        if (canMove(_x + xa, _y)) { // Allow sliding like NES version
+        if (canMove(xa, 0)) { // Allow sliding like NES version
             _x += xa;
         }
         // Update direction: 0 - up, 1 - right, 2 - down, 3 - left
