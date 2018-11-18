@@ -134,10 +134,10 @@ public class Bomber extends Character {
     public boolean canMove(double xa, double ya) {
         // Bomber: 16x12 (HxW)
         Entity[] e = new Entity[4];
-        e[0] = _board.getEntity(Coordinates.pixelToTile(_x + xa), Coordinates.pixelToTile(_y + ya - Game.TILES_SIZE), this); // e[0]: upper left corner
-        e[1] = _board.getEntity(Coordinates.pixelToTile(_x + xa + 11), Coordinates.pixelToTile(_y + ya - Game.TILES_SIZE), this); // e[1]: upper right corner
+        e[0] = _board.getEntity(Coordinates.pixelToTile(_x + xa), Coordinates.pixelToTile(_y + ya) - 1, this); // e[0]: upper left corner
+        e[1] = _board.getEntity(Coordinates.pixelToTile(_x + xa + _sprite.getRealWidth()), Coordinates.pixelToTile(_y + ya) - 1, this); // e[1]: upper right corner
         e[2] = _board.getEntity(Coordinates.pixelToTile(_x + xa), Coordinates.pixelToTile(_y + ya - 1), this); // e[2]: lower left corner
-        e[3] = _board.getEntity(Coordinates.pixelToTile(_x + xa + 11), Coordinates.pixelToTile(_y + ya - 1), this); // e[3]: lower right corner
+        e[3] = _board.getEntity(Coordinates.pixelToTile(_x + xa + _sprite.getRealWidth()), Coordinates.pixelToTile(_y + ya - 1), this); // e[3]: lower right corner
         if (ya < 0) { // Up
             if (!e[0].collide(this) && !e[1].collide(this)) // Both corner is blocked
                 return false;

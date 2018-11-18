@@ -108,8 +108,6 @@ public class Bomb extends AnimatedEntitiy {
 			explode();
 			return true;
 		}
-        // TODO: xử lý khi Bomber đi ra sau khi vừa đặt bom (_allowedToPassThru)
-
         return false;
 	}
 }
