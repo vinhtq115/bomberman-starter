@@ -1,6 +1,7 @@
 package uet.oop.bomberman.entities.bomb;
 
 import uet.oop.bomberman.Board;
+import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.AnimatedEntitiy;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.character.Bomber;
@@ -95,14 +96,12 @@ public class Bomb extends AnimatedEntitiy {
 
 	@Override
 	public boolean collide(Entity e) {
-		if (e instanceof Bomber) { // Case: bomber has just planted the bomb and hasn't moved from the bomb
-			double distanceFromBomberX = e.getX() - Coordinates.tileToPixel(_x);
-			double distanceFromBomberY = e.getY() - Coordinates.tileToPixel(_y);
-			if ((distanceFromBomberX >= 16) || // Bomber on the right
-					(distanceFromBomberX <= -10) || // Bomber on the left
-					(distanceFromBomberY >= 16) || // Bomber below
-					(distanceFromBomberY <= -16)) // Bomber upper
+		if (e instanceof Bomber) {
+			double deltaX = Coordinates.tileToPixel(_x) - e.getX(); // Distance from bomb to Bomber (X-axis)
+			double deltaY = Coordinates.tileToPixel(_y) + Game.TILES_SIZE - e.getY(); // Distance from bomb to Bomber (Y-axis)
+			if (deltaX >= e.getSprite().getRealWidth() || deltaX + _sprite.getRealWidth() <= 0 || deltaY >= e.getSprite().getRealHeight() || deltaY + _sprite.getRealHeight() <= 0) {
 				_allowedToPassThru = false;
+			}
 			return _allowedToPassThru;
 		}
 		if (e instanceof Flame) {
