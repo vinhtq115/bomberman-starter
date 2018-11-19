@@ -2,6 +2,7 @@ package uet.oop.bomberman.entities.bomb;
 
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.character.Character;
 import uet.oop.bomberman.graphics.Screen;
 
 public class Flame extends Entity {
@@ -42,9 +43,26 @@ public class Flame extends Entity {
 		/**
 		 * biến last dùng để đánh dấu cho segment cuối cùng
 		 */
-		boolean last;
+		boolean last = false;
 
-		// TODO: tạo các segment dưới đây
+		int currentX = xOrigin, currentY = yOrigin;
+		for (int i = 0; i < _flameSegments.length; i++) {
+			switch (_direction) {
+				case 0 : 	currentY--; // Up
+							break;
+				case 1 :	currentX++; // Right
+							break;
+				case 2 :	currentY++; // Down
+							break;
+				case 3 :	currentX--; // Left
+							break;
+			}
+			// Mark last segment
+			if (i == _flameSegments.length - 1) {
+				last = true;
+			}
+			_flameSegments[i] = new FlameSegment(currentX, currentY, _direction, last);
+		}
 	}
 
 	/**
@@ -52,8 +70,30 @@ public class Flame extends Entity {
 	 * @return
 	 */
 	private int calculatePermitedDistance() {
-		// TODO: thực hiện tính toán độ dài của Flame
-		return 1;
+		int distance = 0; // Distance of flame
+		int currentX = xOrigin, currentY = yOrigin;
+		while (distance < _radius) {
+			switch (_direction) {
+				case 0 : 	currentY--; // Up
+							break;
+				case 1 :	currentX++; // Right
+							break;
+				case 2 :	currentY++; // Down
+							break;
+				case 3 :	currentX--; // Left
+							break;
+			}
+			Entity e = _board.getEntity(currentX, currentY, null); // Get entity at (currentX;currentY)
+
+			if (e instanceof Character) {
+				distance++;
+			}
+
+			if (!e.collide(this)) // If face wall, brick, bomber or enemy, stop increasing distance
+				break;
+			distance++;
+		}
+		return distance;
 	}
 	
 	public FlameSegment flameSegmentAt(int x, int y) {
@@ -76,7 +116,6 @@ public class Flame extends Entity {
 
 	@Override
 	public boolean collide(Entity e) {
-		// TODO: xử lý va chạm với Bomber, Enemy. Chú ý đối tượng này có vị trí chính là vị trí của Bomb đã nổ
 		return true;
 	}
 }

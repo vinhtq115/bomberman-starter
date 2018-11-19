@@ -72,7 +72,7 @@ public class Bomber extends Character {
      */
     private void detectPlaceBomb() {
         if(_input.space && _timeBetweenPutBombs < 0 && Game.getBombRate() >= 1) {
-            placeBomb(Coordinates.pixelToTile(_x + _sprite.getSize() / 2), Coordinates.pixelToTile(_y - _sprite.getSize() / 2)); // Place bomb based on the center of player
+            placeBomb(Coordinates.pixelToTile(_x + _sprite.getSize() / 2), Coordinates.pixelToTile(_y + _sprite.getSize() / 2 - Game.TILES_SIZE)); // Place bomb based on the center of player
             _timeBetweenPutBombs = 30;
             Game.addBombRate(-1);
         }

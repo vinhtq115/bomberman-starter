@@ -5,6 +5,7 @@ import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.AnimatedEntitiy;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.character.Bomber;
+import uet.oop.bomberman.entities.character.Character;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.level.Coordinates;
@@ -76,7 +77,18 @@ public class Bomb extends AnimatedEntitiy {
      */
 	protected void explode() {
 		_exploded = true;
-		
+		// Get character to kill
+		Character c = _board.getCharacterAtExcluding((int) _x, (int) _y, null);
+		if (c != null) {
+			c.kill();
+		}
+		// Create flames
+		_flames = new Flame[4];
+		System.out.println(_x + " " + _y);
+		_flames[0] = new Flame((int) _x, (int) _y, 0, Game.getBombRadius(), _board); // Up
+		_flames[1] = new Flame((int) _x, (int) _y, 1, Game.getBombRadius(), _board); // Right
+		_flames[2] = new Flame((int) _x, (int) _y, 2, Game.getBombRadius(), _board); // Down
+		_flames[3] = new Flame((int) _x, (int) _y, 3, Game.getBombRadius(), _board); // Left
 		// TODO: xử lý khi Character đứng tại vị trí Bomb
 		
 		// TODO: tạo các Flame
