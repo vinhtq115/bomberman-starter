@@ -84,14 +84,9 @@ public class Bomb extends AnimatedEntitiy {
 		}
 		// Create flames
 		_flames = new Flame[4];
-		System.out.println(_x + " " + _y);
-		_flames[0] = new Flame((int) _x, (int) _y, 0, Game.getBombRadius(), _board); // Up
-		_flames[1] = new Flame((int) _x, (int) _y, 1, Game.getBombRadius(), _board); // Right
-		_flames[2] = new Flame((int) _x, (int) _y, 2, Game.getBombRadius(), _board); // Down
-		_flames[3] = new Flame((int) _x, (int) _y, 3, Game.getBombRadius(), _board); // Left
-		// TODO: xử lý khi Character đứng tại vị trí Bomb
-		
-		// TODO: tạo các Flame
+		for (int i = 0; i < 4; i++) {
+		    _flames[i] = new Flame((int) _x, (int) _y, i, Game.getBombRadius(), _board);
+        }
 	}
 	
 	public FlameSegment flameAt(int x, int y) {

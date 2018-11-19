@@ -1,5 +1,6 @@
 package uet.oop.bomberman.entities.tile.item;
 
+import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.graphics.Sprite;
@@ -13,12 +14,11 @@ public class FlameItem extends Item {
 	@Override
 	public boolean collide(Entity e) {
 		if (e instanceof Bomber) {
-			if (e.getXTile() == _x && e.getYTile() == _y) {
-
-				remove();
-				return true;
+			if (e.getXTile() == _x && e.getYTile() == _y) { // If bomber walk into flame item
+				Game.addBombRadius(1); // Add 1 to bomb radius
+				remove(); // Remove from rendering
 			}
-		// TODO: aa
+			return true; // Allow only bomber to walk through
 		}
 		return false;
 	}

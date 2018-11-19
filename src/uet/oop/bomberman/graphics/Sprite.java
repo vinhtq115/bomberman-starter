@@ -236,10 +236,18 @@ public class Sprite {
 		return _pixels[i];
 	}
 
+	/**
+	 * Get real width of character's sprite
+	 * @return _realWidth
+	 */
 	public int getRealWidth() {
 		return _realWidth;
 	}
 
+	/**
+	 * Get real height of character's sprite
+	 * @return _realHeight
+	 */
 	public int getRealHeight() {
 		return _realHeight;
 	}
