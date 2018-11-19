@@ -13,13 +13,12 @@ public class SpeedItem extends Item {
 
 	@Override
 	public boolean collide(Entity e) {
+		if (isRemoved()) // Avoid re-add speed
+			return true;
 		if (e instanceof Bomber) {
-			if (e.getXTile() == _x && e.getYTile() == _y) {
-				Game.addBomberSpeed(0.2);
-				remove();
-				return true;
-			}
-
+			Game.addBomberSpeed(0.1); // Add speed
+			remove(); // Remove from rendering
+			return true; // Allow bomber to walk through
 		}
 		return false;
 	}

@@ -13,11 +13,11 @@ public class FlameItem extends Item {
 
 	@Override
 	public boolean collide(Entity e) {
+	    if (isRemoved()) // Avoid re-add bomb radius
+	        return true;
 		if (e instanceof Bomber) {
-			if (e.getXTile() == _x && e.getYTile() == _y) { // If bomber walk into flame item
-				Game.addBombRadius(1); // Add 1 to bomb radius
-				remove(); // Remove from rendering
-			}
+            Game.addBombRadius(1); // Add 1 to bomb radius
+            remove(); // Remove from rendering
 			return true; // Allow only bomber to walk through
 		}
 		return false;
