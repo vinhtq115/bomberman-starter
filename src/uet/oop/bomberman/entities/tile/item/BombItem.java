@@ -1,6 +1,8 @@
 package uet.oop.bomberman.entities.tile.item;
 
+import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class BombItem extends Item {
@@ -11,7 +13,13 @@ public class BombItem extends Item {
 
 	@Override
 	public boolean collide(Entity e) {
-		// TODO: xử lý Bomber ăn Item
+		if (e instanceof Bomber) {
+			if (e.getXTile() == _x && e.getYTile() == _y) { // If bomber walk into bomb item
+				Game.addBombRate(1); // Add 1 to bomb rate
+				remove(); // Remove from rendering
+			}
+			return true; // Allow only bomber to walk through
+		}
 		return false;
 	}
 	
