@@ -17,9 +17,8 @@ import uet.oop.bomberman.exceptions.LoadLevelException;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
-import java.util.Scanner;
 
 public class FileLevelLoader extends LevelLoader {
 
@@ -34,26 +33,27 @@ public class FileLevelLoader extends LevelLoader {
 	}
 	
 	@Override
-	public void loadLevel(int level) {
+	public void loadLevel(int level) throws LoadLevelException{
 		String filename = "/levels/Level" + Integer.toString(level) + ".txt";
 		URL location = this.getClass().getResource(filename);
-		Scanner s;
 		try {
-			s = new Scanner(location.openStream());
-			_level = s.nextInt();
-			_height = s.nextInt();
-			_width = s.nextInt();
-			s.nextLine();
+			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(location.openStream()));
+			String info = bufferedReader.readLine();
+			String[] split = info.split(" ");
+			_level = Integer.parseInt(split[0]);
+			_height = Integer.parseInt(split[1]);
+			_width = Integer.parseInt(split[2]);
 			_map = new char[_height][_width];
 			for (int i = 0; i < _height; i++) {
-				String temp = s.nextLine();
 				for (int j = 0; j < _width; j++) {
-					_map[i][j] = temp.charAt(j);
+					_map[i][j] = (char) bufferedReader.read();
 				}
+				bufferedReader.readLine();
 			}
+			bufferedReader.close();
 		}
 		catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Can't load level " + level);
 		}
 	}
 
