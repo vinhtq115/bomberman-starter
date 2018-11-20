@@ -14,8 +14,19 @@ public class AIMedium extends AI {
 
 	@Override
 	public int calculateDirection() {
-		// TODO: cài đặt thuật toán tìm đường đi
-		return 1;
+		if (_bomber.getXTile() != _e.getXTile() && _bomber.getYTile() != _e.getYTile())
+			return new AILow().calculateDirection();
+		if (_bomber.getXTile() == _e.getXTile()) {
+			if (_bomber.getYTile() < _e.getYTile())
+				return 0;
+			else
+				return 2;
+		}
+		else
+			if (_bomber.getXTile() < _e.getXTile())
+				return 3;
+			else
+				return 1;
 	}
 
 }
