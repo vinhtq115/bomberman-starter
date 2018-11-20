@@ -83,7 +83,10 @@ public class Board implements IRender {
 	}
 	
 	public void nextLevel() {
-		loadLevel(_levelLoader.getLevel() + 1);
+        // Reset bombs to fix bug
+        Game.addBombRate(_bombs.size());
+
+        loadLevel(_levelLoader.getLevel() + 1);
 	}
 	
 	public void loadLevel(int level) {
