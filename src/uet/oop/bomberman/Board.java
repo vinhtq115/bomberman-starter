@@ -12,6 +12,8 @@ import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.input.Keyboard;
 import uet.oop.bomberman.level.FileLevelLoader;
 import uet.oop.bomberman.level.LevelLoader;
+import uet.oop.bomberman.sounds.Music;
+import uet.oop.bomberman.sounds.Sound;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -133,6 +135,7 @@ public class Board implements IRender {
 		switch (_screenToShow) {
 			case 1:
 				_screen.drawEndGame(g, _points);
+				Sound.getInstance().playAfterDead();
 				break;
 			case 2:
 				_screen.drawChangeLevel(g, _levelLoader.getLevel());

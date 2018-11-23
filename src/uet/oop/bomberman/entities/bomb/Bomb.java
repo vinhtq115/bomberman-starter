@@ -9,6 +9,7 @@ import uet.oop.bomberman.entities.character.Character;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.level.Coordinates;
+import uet.oop.bomberman.sounds.Sound;
 
 public class Bomb extends AnimatedEntitiy {
 
@@ -77,6 +78,7 @@ public class Bomb extends AnimatedEntitiy {
      */
 	protected void explode() {
 		_exploded = true;
+		Sound.getInstance().playBomb();
 		// Get character to kill
 		Character c = _board.getCharacterAtExcluding((int) _x, (int) _y, null);
 		if (c != null) {

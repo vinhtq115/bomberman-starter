@@ -10,6 +10,7 @@ import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.input.Keyboard;
 import uet.oop.bomberman.level.Coordinates;
+import uet.oop.bomberman.sounds.Sound;
 
 import java.util.Iterator;
 import java.util.List;
@@ -79,6 +80,7 @@ public class Bomber extends Character {
     }
 
     protected void placeBomb(int x, int y) {
+        Sound.getInstance().playPlant();
         _board.addBomb(new Bomb(x, y, _board));
     }
 
@@ -98,7 +100,14 @@ public class Bomber extends Character {
 
     @Override
     public void kill() {
+        // Stop any remaining loop sounds
+        Sound.getInstance().stopX();
+        Sound.getInstance().stopY();
+
         if (!_alive) return;
+
+        Sound.getInstance().playDie(); // PLay bomber die sound
+
         _alive = false;
     }
 
@@ -108,6 +117,10 @@ public class Bomber extends Character {
         else {
             _board.endGame();
         }
+    }
+
+    public boolean isAlive() {
+        return _alive;
     }
 
     @Override
@@ -125,9 +138,20 @@ public class Bomber extends Character {
         if (xa != 0 || ya != 0) {
             _moving = true;
             move(xa, ya);
+            if (_input.left || _input.right) {
+                Sound.getInstance().stopY();
+                Sound.getInstance().playX();
+            }
+            else if (_input.up || _input.down) {
+                Sound.getInstance().stopX();
+                Sound.getInstance().playY();
+            }
         }
-        else
+        else {
             _moving = false;
+            Sound.getInstance().stopX();
+            Sound.getInstance().stopY();
+        }
     }
 
     @Override

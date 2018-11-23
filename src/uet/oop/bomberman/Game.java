@@ -3,6 +3,8 @@ package uet.oop.bomberman;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.gui.Frame;
 import uet.oop.bomberman.input.Keyboard;
+import uet.oop.bomberman.sounds.Music;
+import uet.oop.bomberman.sounds.Sound;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -127,8 +129,11 @@ public class Game extends Canvas {
 				updates++;
 				delta--;
 			}
-			
+
 			if(_paused) {
+				Sound.getInstance().stopX();
+				Sound.getInstance().stopY();
+				Music.getInstance().pauseBackground();
 				if(_screenDelay <= 0) {
 					_board.setShow(-1);
 					_paused = false;
@@ -136,6 +141,10 @@ public class Game extends Canvas {
 					
 				renderScreen();
 			} else {
+				if (_board.getShow() == -1 && _board.getBomber().isAlive())
+					Music.getInstance().playBackground();
+				else
+					Music.getInstance().pauseBackground();
 				renderGame();
 			}
 				

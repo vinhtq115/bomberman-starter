@@ -16,6 +16,8 @@ import uet.oop.bomberman.entities.tile.item.SpeedItem;
 import uet.oop.bomberman.exceptions.LoadLevelException;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.sounds.Music;
+import uet.oop.bomberman.sounds.Sound;
 
 import java.io.*;
 import java.net.URL;
@@ -34,6 +36,8 @@ public class FileLevelLoader extends LevelLoader {
 	
 	@Override
 	public void loadLevel(int level) throws LoadLevelException{
+		Music.getInstance().pauseBackground();
+		Sound.getInstance().playLoadLevel();
 		String filename = "/levels/Level" + Integer.toString(level) + ".txt";
 		URL location = this.getClass().getResource(filename);
 		try {
