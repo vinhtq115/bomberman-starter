@@ -85,10 +85,6 @@ public class Flame extends Entity {
 			}
 			Entity e = _board.getEntity(currentX, currentY, null); // Get entity at (currentX;currentY)
 
-			if (e instanceof Character) {
-				distance++;
-			}
-
 			if (!e.collide(this)) // If face wall, brick, bomber or enemy, stop increasing distance
 				break;
 			distance++;
