@@ -1,13 +1,12 @@
 package uet.oop.bomberman.entities.character.enemy;
 
 import uet.oop.bomberman.Board;
-import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.character.enemy.ai.AILow;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Doll extends Enemy {
     public Doll(int x, int y, Board board) {
-        super(x, y, board, Sprite.doll_dead, Game.getBomberSpeed(), 400);
+        super(x, y, board, Sprite.doll_dead, 1.0, 400);
 
         _sprite = Sprite.doll_right1;
 
