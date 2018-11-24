@@ -167,4 +167,8 @@ public abstract class Enemy extends Character {
 	}
 	
 	protected abstract void chooseSprite();
+
+	public double getSpeed() {
+		return _speed;
+	}
 }

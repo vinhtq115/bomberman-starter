@@ -109,13 +109,21 @@ public class Bomber extends Character {
         Sound.getInstance().playDie(); // PLay bomber die sound
 
         _alive = false;
+
+        _board.addLives(-1);
     }
 
     @Override
     protected void afterKill() {
         if (_timeAfter > 0) --_timeAfter;
         else {
-            _board.endGame();
+            // Make bomb explode before restarting level
+            if (_bombs.size() == 0) {
+                if (_board.getLives() == 0)
+                    _board.endGame();
+                else
+                    _board.loadLevel(_board._level);
+            }
         }
     }
 

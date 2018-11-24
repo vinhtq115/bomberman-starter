@@ -60,5 +60,12 @@ public abstract class Character extends AnimatedEntitiy {
 	protected double getYMessage() {
 		return (_y* Game.SCALE) - (_sprite.SIZE / 2 * Game.SCALE);
 	}
-	
+
+	public int getDirection() {
+		return _direction;
+	}
+
+	public Board getBoard() {
+		return _board;
+	}
 }

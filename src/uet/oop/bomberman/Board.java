@@ -38,7 +38,10 @@ public class Board implements IRender {
 	
 	private int _time = Game.TIME;
 	private int _points = Game.POINTS;
-	
+	private int _lives = Game.LIVES;
+
+	public int _level;
+
 	public Board(Game game, Keyboard input, Screen screen) {
 		_game = game;
 		_input = input;
@@ -93,6 +96,7 @@ public class Board implements IRender {
 	
 	public void loadLevel(int level) {
 		_time = Game.TIME;
+		_level = level;
 		_screenToShow = 2;
 		_game.resetScreenDelay();
 		_game.pause();
@@ -346,8 +350,16 @@ public class Board implements IRender {
 		return _points;
 	}
 
+	public int getLives() {
+		return _lives;
+	}
+
 	public void addPoints(int points) {
 		this._points += points;
+	}
+
+	public void addLives(int lives) {
+		this._lives += lives;
 	}
 	
 	public int getWidth() {
