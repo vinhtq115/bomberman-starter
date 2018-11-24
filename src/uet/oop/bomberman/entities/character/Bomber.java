@@ -118,7 +118,7 @@ public class Bomber extends Character {
     protected void afterKill() {
         if (_timeAfter > 0) --_timeAfter;
         else {
-            // Make bomb explode before restarting level
+            // Reset bomb before restarting level
             Game.addBombRate(_bombs.size());
             _bombs = new ArrayList<>();
             if (_board.getLives() == 0)
