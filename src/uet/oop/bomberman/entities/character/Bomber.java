@@ -12,6 +12,7 @@ import uet.oop.bomberman.input.Keyboard;
 import uet.oop.bomberman.level.Coordinates;
 import uet.oop.bomberman.sounds.Sound;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -109,7 +110,7 @@ public class Bomber extends Character {
         Sound.getInstance().playDie(); // PLay bomber die sound
 
         _alive = false;
-
+        // Reduce lives by 1
         _board.addLives(-1);
     }
 
@@ -118,12 +119,12 @@ public class Bomber extends Character {
         if (_timeAfter > 0) --_timeAfter;
         else {
             // Make bomb explode before restarting level
-            if (_bombs.size() == 0) {
-                if (_board.getLives() == 0)
-                    _board.endGame();
-                else
-                    _board.loadLevel(_board._level);
-            }
+            Game.addBombRate(_bombs.size());
+            _bombs = new ArrayList<>();
+            if (_board.getLives() == 0)
+                _board.endGame();
+            else
+                _board.loadLevel(_board._level);
         }
     }
 
