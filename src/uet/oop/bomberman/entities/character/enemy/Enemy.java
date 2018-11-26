@@ -134,7 +134,7 @@ public abstract class Enemy extends Character {
 	public boolean collide(Entity e) {
 		if (e instanceof Flame) {
 			this.kill();
-			return true; // Let flame go through enemy
+			return false;
 		}
 		if (e instanceof Bomber) {
 			Bomber bomber = (Bomber) e;
