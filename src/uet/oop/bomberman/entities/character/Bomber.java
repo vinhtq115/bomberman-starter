@@ -266,14 +266,9 @@ public class Bomber extends Character {
      */
     @Override
     public boolean collide(Entity e) {
-        if (e instanceof Enemy) {
+        if (e instanceof Enemy || e instanceof Flame) {
             this.kill();
             return true;
-        }
-
-        if (e instanceof Flame) {
-            this.kill();
-            return false;
         }
 
         return true;
