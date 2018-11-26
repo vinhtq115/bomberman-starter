@@ -370,5 +370,32 @@ public class Board implements IRender {
 	public int getHeight() {
 		return _levelLoader.getHeight();
 	}
-	
+
+	public void pause() {
+		_game.resetScreenDelay();
+		if (_screenToShow <= 0)
+			_screenToShow = 3;
+		_game.pause();
+	}
+
+	public void resume() {
+		_game.resetScreenDelay();
+		_screenToShow = -1;
+		_game.resume();
+	}
+
+	/**
+	 * Reset game
+	 */
+	public void resetGame() {
+		// Reset all info
+		_points = 0;
+		_lives = 3;
+		_game.bomberSpeed = 1.0;
+		_game.bombRadius = 1;
+		_game.bombRate = 1;
+
+		// Load level 1
+		loadLevel(1);
+	}
 }

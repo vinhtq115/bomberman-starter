@@ -177,6 +177,18 @@ public class Game extends Canvas {
 	public static int getBombRadius() {
 		return bombRadius;
 	}
+
+	public static void setBombRate(int i) {
+		bombRate = i;
+	}
+
+	public static void setBomberSpeed(double i) {
+		bomberSpeed = i;
+	}
+
+	public static void setBombRadius(int i) {
+		bombRadius = i;
+	}
 	
 	public static void addBomberSpeed(double i) {
 		bomberSpeed += i;
@@ -205,5 +217,9 @@ public class Game extends Canvas {
 	public void pause() {
 		_paused = true;
 	}
-	
+
+	public void resume() {
+		_running = true;
+		_paused = false;
+	}
 }
