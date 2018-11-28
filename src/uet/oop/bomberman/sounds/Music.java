@@ -4,6 +4,7 @@ import javax.sound.sampled.*;
 
 public class Music {
     private static Music instance = null;
+    private boolean soundEnabled;
 
     private Thread thread;
     private Clip clip;
@@ -13,6 +14,7 @@ public class Music {
 
     private Music() {
         try {
+            soundEnabled = true;
             audioIn = AudioSystem.getAudioInputStream(Music.class.getResourceAsStream("/music/background.wav"));
             clip = AudioSystem.getClip();
             clip.open(audioIn);
@@ -23,7 +25,7 @@ public class Music {
     }
 
     public void playBackground() {
-        if (playing) // Optimize frame rate
+        if (playing || !soundEnabled) // Optimize frame rate
             return;
         thread = new Thread(() -> {
             clip.setFramePosition(0); // Reset music playback
@@ -45,5 +47,14 @@ public class Music {
         if (instance == null)
             instance = new Music();
         return instance;
+    }
+
+    public void disableMusic() {
+        soundEnabled = false;
+        pauseBackground();
+    }
+
+    public void enableMusic() {
+        soundEnabled = true;
     }
 }

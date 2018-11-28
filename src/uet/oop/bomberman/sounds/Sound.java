@@ -5,10 +5,12 @@ import javax.sound.sampled.*;
 public class Sound {
 
     private AudioInputStream[] audioIn = new AudioInputStream[7];
+    private boolean enabled;
     private Clip[] clip = new Clip[7];
     private static Sound instance = null;
 
     private Sound() {
+        enabled = true;
         try {
             audioIn[0] = AudioSystem.getAudioInputStream(Sound.class.getResourceAsStream("/sounds/move1.wav")); // Move by X
             audioIn[1] = AudioSystem.getAudioInputStream(Sound.class.getResourceAsStream("/sounds/move2.wav")); // Move by Y
@@ -34,54 +36,78 @@ public class Sound {
     }
 
     public void playX() {
-        try {
-            clip[0].loop(Clip.LOOP_CONTINUOUSLY);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
+        if (enabled) {
+            try {
+                clip[0].loop(Clip.LOOP_CONTINUOUSLY);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     } // Play sound when bomber move horizontally
 
     public void stopX() {
-        clip[0].stop();
-        clip[0].setFramePosition(0);
+        if (enabled) {
+            clip[0].stop();
+            clip[0].setFramePosition(0);
+        }
     } // Stop sound
 
     public void playY() {
-        try {
-            clip[1].loop(Clip.LOOP_CONTINUOUSLY);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
+        if (enabled) {
+            try {
+                clip[1].loop(Clip.LOOP_CONTINUOUSLY);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     } // Play sound when bomber move vertically
 
     public void stopY() {
-        clip[1].stop();
-        clip[1].setFramePosition(0);
+        if (enabled) {
+            clip[1].stop();
+            clip[1].setFramePosition(0);
+        }
     } // Stop sound
 
     public void playPlant() {
-        clip[2].setFramePosition(0);
-        clip[2].start();
+        if (enabled) {
+            clip[2].setFramePosition(0);
+            clip[2].start();
+        }
     } // Play sound when bomber plants bomb
 
     public void playLoadLevel() {
-        clip[5].setFramePosition(0);
-        clip[5].start();
+        if (enabled) {
+            clip[5].setFramePosition(0);
+            clip[5].start();
+        }
     } // Play sound when loading level
 
     public void playDie() {
-        clip[3].setFramePosition(0);
-        clip[3].start();
+        if (enabled) {
+            clip[3].setFramePosition(0);
+            clip[3].start();
+        }
     } // Play sound when bomber die
 
     public void playAfterDead() {
-        clip[4].start();
+        if (enabled) {
+            clip[4].start();
+        }
     } // Play sound when game end
 
     public void playBomb() {
-        clip[6].setFramePosition(0);
-        clip[6].start();
+        if (enabled) {
+            clip[6].setFramePosition(0);
+            clip[6].start();
+        }
     } // Play sound when bomb explode
+
+    public void enableSound() {
+        enabled = true;
+    }
+
+    public void disableSound() {
+        enabled = false;
+    }
 }
