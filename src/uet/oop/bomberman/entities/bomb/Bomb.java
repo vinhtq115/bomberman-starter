@@ -109,12 +109,12 @@ public class Bomb extends AnimatedEntitiy {
 			double deltaX = Coordinates.tileToPixel(_x) - e.getX(); // Distance from bomb to Bomber (X-axis)
 			double deltaY = Coordinates.tileToPixel(_y) + Game.TILES_SIZE - e.getY(); // Distance from bomb to Bomber (Y-axis)
 			if (deltaX >= e.getSprite().getRealWidth() || deltaX + _sprite.getRealWidth() <= 0 || deltaY >= e.getSprite().getRealHeight() || deltaY + _sprite.getRealHeight() <= 0) {
-				_allowedToPassThru = false;
+				_allowedToPassThru = false; // Once bomber walks out of bomb, don't allow bomber to walk on bomb
 			}
 			return _allowedToPassThru;
 		}
 		if (e instanceof Flame) {
-			_timeToExplode = 0; // Make bomb exploded
+			_timeToExplode = 0; // Make bomb exploded if intact with flame
 			return true;
 		}
         return false;

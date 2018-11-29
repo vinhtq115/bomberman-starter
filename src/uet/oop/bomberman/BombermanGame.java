@@ -5,6 +5,7 @@ import uet.oop.bomberman.gui.Frame;
 public class BombermanGame {
 	
 	public static void main(String[] args) {
+		// For macOS
 		String osName = System.getProperty("os.name").toLowerCase();
 		boolean isMacOs = osName.startsWith("mac os x");
 		if (isMacOs) {
