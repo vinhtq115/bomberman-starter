@@ -9,5 +9,6 @@ public class Menu extends JMenuBar {
         add(new GameMenu(frame));
         add(new AudioMenu(frame));
         add(new CheatMenu(frame));
+        add(new HelpMenu(frame));
     }
 }
