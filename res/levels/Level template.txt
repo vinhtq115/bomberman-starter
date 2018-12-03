@@ -1,0 +1,41 @@
+1 13 31
+###############################
+#p                            #
+# # # # # # # # # # # # # # # #
+#                             #
+# # # # # # # # # # # # # # # #
+#                             #
+# # # # # # # # # # # # # # # #
+#                             #
+# # # # # # # # # # # # # # # #
+#                             #
+# # # # # # # # # # # # # # # #
+#                             #
+###############################
+
+Level file structure:
+First line:
+1 - Level
+13 - Map height
+31 - Map width
+
+Begin from second line
+Tiles:
+# - Wall
+* - Brick
+x - Portal
+
+Character:
+p - Bomber
+1 - Balloon
+2 - Oneal
+3 - Doll
+4 - Minvo
+5 - Kondoria
+
+Items:
+b - Bomb Item
+f - Flame Item
+s - Speed Item
+
+Other: grass
