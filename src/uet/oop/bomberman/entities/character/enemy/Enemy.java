@@ -123,8 +123,8 @@ public abstract class Enemy extends Character {
 		Entity[] e = new Entity[4];
 		e[0] = _board.getEntity(Coordinates.pixelToTile(_x + xa), Coordinates.pixelToTile(_y + ya - Game.TILES_SIZE), this); // e[0]: upper left corner
 		e[1] = _board.getEntity(Coordinates.pixelToTile(_x + xa + _sprite.getRealWidth() - 1), Coordinates.pixelToTile(_y + ya - Game.TILES_SIZE), this); // e[1]: upper right corner
-		e[2] = _board.getEntity(Coordinates.pixelToTile(_x + xa), Coordinates.pixelToTile(_y + ya - 1), this); // e[2]: lower left corner
-		e[3] = _board.getEntity(Coordinates.pixelToTile(_x + xa + _sprite.getRealWidth() - 1), Coordinates.pixelToTile(_y + ya - Game.TILES_SIZE), this); // e[3]: lower right corner
+		e[2] = _board.getEntity(Coordinates.pixelToTile(_x + xa), Coordinates.pixelToTile(_y + ya - Game.TILES_SIZE + _sprite.getRealHeight() - 1), this); // e[2]: lower left corner
+		e[3] = _board.getEntity(Coordinates.pixelToTile(_x + xa + _sprite.getRealWidth() - 1), Coordinates.pixelToTile(_y + ya - Game.TILES_SIZE + _sprite.getRealHeight() - 1), this); // e[3]: lower right corner
 		if (!e[0].collide(this) || !e[1].collide(this) || !e[2].collide(this) || !e[3].collide(this))
 			return false;
 		return true;
