@@ -55,6 +55,12 @@ public class FileLevelLoader extends LevelLoader {
 			}
 			bufferedReader.close();
 		}
+		catch (NullPointerException e) { // In case no more file-based level, generate one
+			_level = level;
+			_height = 13;
+			_width = 31;
+			_map = LevelGenerator.generate();
+		}
 		catch (IOException e) {
 			System.out.println("Can't load level " + level);
 		}
