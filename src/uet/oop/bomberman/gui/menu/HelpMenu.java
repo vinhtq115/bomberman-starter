@@ -15,6 +15,10 @@ public class HelpMenu extends JMenu {
         super("Help");
         this.frame = frame;
 
+        // Game
+        JMenuItem gameHelp = new JMenuItem("Game rules");
+        gameHelp.addActionListener(helpActionListener);
+        add(gameHelp);
         // Bomber
         JMenuItem bomberHelp = new JMenuItem("Bomber");
         bomberHelp.addActionListener(helpActionListener);
@@ -32,6 +36,9 @@ public class HelpMenu extends JMenu {
     ActionListener helpActionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
+            if (e.getActionCommand().equals("Game rules")) {
+                showHTML("game.html");
+            }
             if (e.getActionCommand().equals("Bomber")) {
                 showHTML("bomber.html");
             }
