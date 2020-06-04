@@ -15,7 +15,7 @@ public class Music {
     private Music() {
         try {
             soundEnabled = true;
-            audioIn = AudioSystem.getAudioInputStream(Music.class.getResourceAsStream("/music/background.wav"));
+            audioIn = AudioSystem.getAudioInputStream(getClass().getResource("/music/background.wav"));
             clip = AudioSystem.getClip();
             clip.open(audioIn);
         }

@@ -12,13 +12,13 @@ public class Sound {
     private Sound() {
         enabled = true;
         try {
-            audioIn[0] = AudioSystem.getAudioInputStream(Sound.class.getResourceAsStream("/sounds/move1.wav")); // Move by X
-            audioIn[1] = AudioSystem.getAudioInputStream(Sound.class.getResourceAsStream("/sounds/move2.wav")); // Move by Y
-            audioIn[2] = AudioSystem.getAudioInputStream(Sound.class.getResourceAsStream("/sounds/plant.wav")); // Plant bomb
-            audioIn[3] = AudioSystem.getAudioInputStream(Sound.class.getResourceAsStream("/sounds/die.wav")); // Die
-            audioIn[4] = AudioSystem.getAudioInputStream(Sound.class.getResourceAsStream("/sounds/after_dead.wav")); // After die
-            audioIn[5] = AudioSystem.getAudioInputStream(Sound.class.getResourceAsStream("/sounds/loadlevel.wav")); // Load level sound
-            audioIn[6] = AudioSystem.getAudioInputStream(Sound.class.getResourceAsStream("/sounds/explode.wav")); // Bomb explode sound
+            audioIn[0] = AudioSystem.getAudioInputStream(getClass().getResource("/sounds/move1.wav")); // Move by X
+            audioIn[1] = AudioSystem.getAudioInputStream(getClass().getResource("/sounds/move2.wav")); // Move by Y
+            audioIn[2] = AudioSystem.getAudioInputStream(getClass().getResource("/sounds/plant.wav")); // Plant bomb
+            audioIn[3] = AudioSystem.getAudioInputStream(getClass().getResource("/sounds/die.wav")); // Die
+            audioIn[4] = AudioSystem.getAudioInputStream(getClass().getResource("/sounds/after_dead.wav")); // After die
+            audioIn[5] = AudioSystem.getAudioInputStream(getClass().getResource("/sounds/loadlevel.wav")); // Load level sound
+            audioIn[6] = AudioSystem.getAudioInputStream(getClass().getResource("/sounds/explode.wav")); // Bomb explode sound
             for (int i = 0; i < 7; i++) {
                 clip[i] = AudioSystem.getClip();
                 clip[i].open(audioIn[i]);
